@@ -384,7 +384,7 @@ NvOdmPeripheralGetBoardInfo(
 void
 Nv_WIFI_LED_Control(unsigned int enable);
 
-#if defined(CONFIG_7564C_V10)
+#if (defined(CONFIG_7564C_V10) || defined(CONFIG_7546Y_V10))	
 void Nv_Suspend_LED_Control(unsigned int enable);//hzj added
 #endif
 

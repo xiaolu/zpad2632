@@ -224,7 +224,8 @@ static void twl4030_kp_scan(struct twl4030_keypad *kp, bool release_all)
 		if (!changed)
 			continue;
 
-		for (col = 0; col < kp->n_cols; col++) {
+		/* Extra column handles "all gnd" rows */
+		for (col = 0; col < kp->n_cols + 1; col++) {
 			int code;
 
 			if (!(changed & (1 << col)))

@@ -506,14 +506,11 @@ NvOdmPeripheralGetBoardInfo(
 
     // Match not found
     pBoardInfo = NULL;
-//renn-    return NV_FALSE;
-//    return NV_TRUE; //renn+
-#if 0//(defined(CONFIG_7373C_V20)||defined(CONFIG_7332C_V21)||defined(CONFIG_7564C_V10))
-return NV_TRUE;
+ #if (defined(CONFIG_7373C_V20)||defined(CONFIG_7332C_V21)||defined(CONFIG_7564C_V10)||defined(CONFIG_7265C_V20)||defined(CONFIG_7323C_V21))
+	return NV_TRUE;
 #else
-return NV_FALSE;
+	return NV_FALSE;
 #endif
-
 }
 
 // This will compare the peripheral GUID against a list of known-bad GUIDs

@@ -27,6 +27,8 @@ config SMBA8901
 config SMBA9701
 	bool "SMBA9701"
 
+config SMBB1001
+	bool "SMBB1001"
 endchoice
 
 comment "Subboard platform"
@@ -53,9 +55,11 @@ endchoice
 
 choice 
 	prompt "Select a client of 7265C_V20"
-depends on 7265C_V20
-config CLIENT_FLEX
-	bool "Client: flex"
+	depends on 7265C_V20
+	
+config CLIENT_WCL
+	bool "Client: wcl"
+	
 endchoice
 
 choice
@@ -119,4 +123,13 @@ config 7564C_V10
 	
 endchoice
 
+
+choice
+	prompt "Select a subboard of SMBB1001"
+	depends on SMBB1001
+	
+config 7546Y_V10
+	bool "Board number: 7546Y_V10"
+	
+endchoice
 endif

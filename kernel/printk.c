@@ -639,6 +639,7 @@ static int have_callable_console(void)
 
 asmlinkage int printk(const char *fmt, ...)
 {
+	#if 1
 	va_list args;
 	int r;
 
@@ -647,6 +648,9 @@ asmlinkage int printk(const char *fmt, ...)
 	va_end(args);
 
 	return r;
+	#else
+	return 0;
+	#endif
 }
 
 /* cpu currently holding logbuf_lock */
@@ -992,7 +996,6 @@ static int __init console_suspend_disable(char *str)
 	console_suspend_enabled = 0;
 	return 1;
 }
-
 __setup("no_console_suspend", console_suspend_disable);
 
 /**
@@ -1069,6 +1072,8 @@ void printk_tick(void)
 
 int printk_needs_cpu(int cpu)
 {
+	if (unlikely(cpu_is_offline(cpu)))
+		printk_tick();
 	return per_cpu(printk_pending, cpu);
 }
 

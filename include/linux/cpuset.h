@@ -21,6 +21,7 @@ extern int number_of_cpusets;	/* How many cpusets are defined in system? */
 extern int cpuset_init(void);
 extern void cpuset_init_smp(void);
 extern void cpuset_cpus_allowed(struct task_struct *p, struct cpumask *mask);
+extern int cpuset_cpus_allowed_fallback(struct task_struct *p);
 extern void cpuset_cpus_allowed_locked(struct task_struct *p,
 				       struct cpumask *mask);
 extern nodemask_t cpuset_mems_allowed(struct task_struct *p);
@@ -109,6 +110,12 @@ static inline void cpuset_cpus_allowed_locked(struct task_struct *p,
 					      struct cpumask *mask)
 {
 	cpumask_copy(mask, cpu_possible_mask);
+}
+
+static inline int cpuset_cpus_allowed_fallback(struct task_struct *p)
+{
+	cpumask_copy(&p->cpus_allowed, cpu_possible_mask);
+	return cpumask_any(cpu_active_mask);
 }
 
 static inline nodemask_t cpuset_mems_allowed(struct task_struct *p)

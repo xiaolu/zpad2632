@@ -42,7 +42,7 @@
 #include "nvos_ioctl.h"
 #include "nvreftrack.h"
 #include "board.h"
-#if defined(CONFIG_7564C_V10)
+#if (defined(CONFIG_7564C_V10) || defined(CONFIG_7546Y_V10))	
 #include <nvodm_query_discovery.h>//hzj added
 #endif
 
@@ -626,7 +626,7 @@ int tegra_pm_notifier(struct notifier_block *nb,
 #ifndef CONFIG_HAS_EARLYSUSPEND
         notify_daemon(STRING_PM_DISPLAY_OFF);
 #endif
-        WAKE_UP_FROM_LP1_FLAG = 1;
+                WAKE_UP_FROM_LP1_FLAG = 1;
         notify_daemon(STRING_PM_SUSPEND_PREPARE);
         NvRmPrivDvsStop();
         break;
@@ -650,7 +650,7 @@ int tegra_pm_notifier(struct notifier_block *nb,
 void tegra_display_off(struct early_suspend *h)
 {
     notify_daemon(STRING_PM_DISPLAY_OFF);
-  #if defined(CONFIG_7564C_V10)
+#if (defined(CONFIG_7564C_V10) || defined(CONFIG_7546Y_V10))	
   Nv_Suspend_LED_Control(1);//hzj added
   #endif
 }
@@ -658,7 +658,7 @@ void tegra_display_off(struct early_suspend *h)
 void tegra_display_on(struct early_suspend *h)
 {
     notify_daemon(STRING_PM_DISPLAY_ON);
-    #if defined(CONFIG_7564C_V10)
+   #if (defined(CONFIG_7564C_V10) || defined(CONFIG_7546Y_V10))	
  	Nv_Suspend_LED_Control(0);//hzj added
 	#endif
 }

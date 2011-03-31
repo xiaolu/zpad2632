@@ -1,11 +1,4 @@
 /*
- * Disregards a certain amount of sleep time (sched_latency_ns) and
- * considers the task to be running during that period. This gives it
- * a service deficit on wakeup, allowing it to run sooner.
- */
-SCHED_FEAT(FAIR_SLEEPERS, 1)
-
-/*
  * Only give sleepers 50% of their service deficit. This allows
  * them to run sooner, but does not allow tons of sleepers to
  * rip the spread apart.
@@ -121,3 +114,8 @@ SCHED_FEAT(ASYM_EFF_LOAD, 1)
  * release the lock. Decreases scheduling overhead.
  */
 SCHED_FEAT(OWNER_SPIN, 1)
+
+/*
+ * Decrement CPU power based on irq activity
+ */
+SCHED_FEAT(NONIRQ_POWER, 1)

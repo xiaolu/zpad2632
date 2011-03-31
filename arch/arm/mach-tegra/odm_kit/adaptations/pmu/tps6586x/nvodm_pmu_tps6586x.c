@@ -423,7 +423,7 @@ static const TPS6586xPmuSupplyInfo tps6586xSupplyInfoTable[] =
         {TPS6586x_R52_RGB1GREEN, 7, 1, TPS6586x_RFF_INVALID},
         NULL, NULL, NULL,
         TPS6586x_RFF_INVALID,
-       #if (defined(CONFIG_7564C_V10))
+       #if (defined(CONFIG_7564C_V10)||defined(CONFIG_7546Y_V10))
 	   {
             NV_FALSE,  
             0, 1, 0x9f, 0  //hzj change 0x1f
@@ -1434,7 +1434,7 @@ void Nv_WIFI_LED_Control(unsigned int enable)
 	}
 }
 
-#if (defined(CONFIG_7564C_V10)) //suspend led  hzj added
+ #if (defined(CONFIG_7564C_V10)||defined(CONFIG_7546Y_V10)) //suspend led  hzj added
 
 NvOdmPmuDeviceHandle Suspend_hDevice=NULL;
 
@@ -1489,7 +1489,7 @@ NvBool Tps6586xSetup(NvOdmPmuDeviceHandle hDevice)
 	WIFI_hDevice = hDevice;
 
 
-#if (defined(CONFIG_7564C_V10))
+ #if (defined(CONFIG_7564C_V10)||defined(CONFIG_7546Y_V10))
   Suspend_hDevice= hDevice; //hzj added
 #endif  
 
@@ -2063,16 +2063,17 @@ static void Resume_Isr(void *arg)
 
         do_gettimeofday(&start_time);
 
-        //Add for double click in 500ms; 2010-10-27
+        //Add for double click in 250ms; 2011-03-01
         if(WAKE_UP_FROM_LP1_FLAG != 1) {
                 if((( start_time.tv_sec == last_receive_time.tv_sec )) && 
-                   (( start_time.tv_usec - last_receive_time.tv_usec ) < 500000)) {
+                   (( start_time.tv_usec - last_receive_time.tv_usec ) < 250000)) {
                         goto left;
                 }
         }
 
         /* If it's the press for wake-up, send out a "KEY_F4" */
         if((WAKE_UP_FROM_LP1_FLAG == 1) && (delatime < 1)) {
+		do_gettimeofday(&last_receive_time);
                 printk("Send First KEY_F4(LP1) -->");
                 F4_Deal(1);     /* Send a simulate to upper  (PowerManager Service) */
         } else {
@@ -2128,8 +2129,8 @@ static void Resume_Isr(void *arg)
                         }
                 }
 
-                /* Clear EXITSLREQ to 1(0x14, bit B1) in 6s */
-		if(((gpio_get_value(pinnum)& 0x1)) && (delatime < 2)) {
+                /* Clear EXITSLREQ to 1(0x14, bit B1) in 3s */
+		if(((gpio_get_value(pinnum)& 0x1)) && (delatime < 3)) {
                         if(WAKE_UP_FROM_LP1_FLAG == 1) { /* Release quickly and PMU flag is not set */
                                 /* Fixme : need clear PMU flag here although this flag is not set ? */
                                 printk("Release quickly(LP1) -->");
@@ -2156,8 +2157,8 @@ static void Resume_Isr(void *arg)
                         }
 		}
 
-                /* If press duration is more than 5 seconds, power off device */
-		if(delatime >= 6) {
+                /* If press duration is more than 9 seconds, power off device */
+		if(delatime >= 9) {
                         data = 0x08;
                         
                         power_fs_sync();
@@ -2187,7 +2188,7 @@ left:
         /* Ok, in this loop, clear WAKE_UP_FROM_LP1_FLAG */
         WAKE_UP_FROM_LP1_FLAG = 0;
 
-        //Add for double click in 500ms; 2010-10-27
+        //Add for double click in 250ms; 2011-03-01
         do_gettimeofday(&last_receive_time);
 
         atomic_set(&resume_isr_lock, 0);

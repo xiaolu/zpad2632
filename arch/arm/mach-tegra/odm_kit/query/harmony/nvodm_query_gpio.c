@@ -171,7 +171,7 @@ static const NvOdmGpioPinKeyInfo s_GpioPinKeyInfo[] = {
 	{KEY_MENU, 10, NV_FALSE}, 
 	{KEY_VOLUMEDOWN, 10, NV_FALSE},
 	{KEY_VOLUMEUP, 10, NV_FALSE},  
-//	{KEY_CAMERA, 10, NV_FALSE},
+	{KEY_CAMERA, 10, NV_FALSE},
 	{KEY_F4, 10, NV_TRUE},
 #elif defined(CONFIG_7113C_V10)	
   {KEY_VOLUMEUP, 10, NV_TRUE},
@@ -180,6 +180,12 @@ static const NvOdmGpioPinKeyInfo s_GpioPinKeyInfo[] = {
 	{KEY_MENU, 10, NV_TRUE},
   {KEY_HOME, 10, NV_TRUE},
   {KEY_BACK, 10, NV_TRUE},
+#elif defined(CONFIG_7546Y_V10)
+    {KEY_ESC, 10, NV_FALSE},   
+	{KEY_VOLUMEUP, 10, NV_FALSE},
+	{KEY_VOLUMEDOWN, 10, NV_FALSE},  
+	{KEY_CAMERA, 10, NV_FALSE},
+	{KEY_F4, 10, NV_TRUE},
 #else
 	{KEY_VOLUMEUP, 10, NV_TRUE},
 	{KEY_VOLUMEDOWN, 10, NV_TRUE},
@@ -206,8 +212,8 @@ static const NvOdmGpioPinInfo s_GpioKeyBoard[] = {
 //	{NVODM_PORT('q'), 3, NvOdmGpioPinActiveState_Low, (void *)&s_GpioPinKeyInfo[3]},
 	{NVODM_PORT('q'), 4, NvOdmGpioPinActiveState_Low, (void *)&s_GpioPinKeyInfo[3]},
 	{NVODM_PORT('q'), 5, NvOdmGpioPinActiveState_Low, (void *)&s_GpioPinKeyInfo[4]},
-//	{NVODM_PORT('q'), 7, NvOdmGpioPinActiveState_Low, (void *)&s_GpioPinKeyInfo[5]},
-	{NVODM_PORT('v'), 2, NvOdmGpioPinActiveState_Low, (void *)&s_GpioPinKeyInfo[5]},
+	{NVODM_PORT('q'), 7, NvOdmGpioPinActiveState_Low, (void *)&s_GpioPinKeyInfo[5]},
+	{NVODM_PORT('v'), 2, NvOdmGpioPinActiveState_Low, (void *)&s_GpioPinKeyInfo[6]},
 #elif defined(CONFIG_7379Y_V11)
 	{NVODM_PORT('d'), 4, NvOdmGpioPinActiveState_Low, (void *)&s_GpioPinKeyInfo[0]},
 	{NVODM_PORT('v'), 4, NvOdmGpioPinActiveState_Low, (void *)&s_GpioPinKeyInfo[1]},
@@ -220,6 +226,13 @@ static const NvOdmGpioPinInfo s_GpioKeyBoard[] = {
    {NVODM_PORT('v'), 5, NvOdmGpioPinActiveState_Low, (void *)&s_GpioPinKeyInfo[3]},
    {NVODM_PORT('v'), 6, NvOdmGpioPinActiveState_Low, (void *)&s_GpioPinKeyInfo[4]},
    {NVODM_PORT('i'), 3, NvOdmGpioPinActiveState_Low, (void *)&s_GpioPinKeyInfo[5]},
+#elif (defined(CONFIG_7546Y_V10))
+
+	{NVODM_PORT('q'), 5, NvOdmGpioPinActiveState_Low, (void *)&s_GpioPinKeyInfo[1]},
+	{NVODM_PORT('q'), 6, NvOdmGpioPinActiveState_Low, (void *)&s_GpioPinKeyInfo[2]},
+	{NVODM_PORT('q'), 7, NvOdmGpioPinActiveState_Low, (void *)&s_GpioPinKeyInfo[3]},
+	{NVODM_PORT('v'), 2, NvOdmGpioPinActiveState_Low, (void *)&s_GpioPinKeyInfo[4]},
+
 #else
 	{NVODM_PORT('v'), 4, NvOdmGpioPinActiveState_Low, (void *)&s_GpioPinKeyInfo[0]},	
 	{NVODM_PORT('d'), 4, NvOdmGpioPinActiveState_Low, (void *)&s_GpioPinKeyInfo[1]},
