@@ -21,7 +21,7 @@
  * software in any way with any other Broadcom software provided under a license
  * other than the GPL, without Broadcom's express prior written consent.
  *
- * $Id: linux_osl.h,v 13.131.30.7 2010/03/29 19:03:11 Exp $
+ * $Id: linux_osl.h,v 13.131.30.8 2010/04/26 05:42:18 Exp $
  */
 
 
@@ -319,9 +319,4 @@ extern int osl_error(int bcmerror);
 
 
 #define OSL_SYSUPTIME()		((uint32)jiffies * (1000 / HZ))
-
-#define FILE void
-#define F_OPEN(fp, mode) NULL
-#define F_WRITE(buf, w_size, len, fp) do { } while (0)
-#define F_CLOSE(fp) do { } while (0)
 #endif	

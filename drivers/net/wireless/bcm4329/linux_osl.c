@@ -21,7 +21,7 @@
  * software in any way with any other Broadcom software provided under a license
  * other than the GPL, without Broadcom's express prior written consent.
  *
- * $Id: linux_osl.c,v 1.125.12.3.8.6 2009/12/09 01:29:03 Exp $
+ * $Id: linux_osl.c,v 1.125.12.3.8.7 2010/05/04 21:10:04 Exp $
  */
 
 
@@ -151,8 +151,10 @@ osl_t *
 osl_attach(void *pdev, uint bustype, bool pkttag)
 {
 	osl_t *osh;
+	gfp_t flags;
 
-	osh = kmalloc(sizeof(osl_t), GFP_ATOMIC);
+	flags = (in_atomic()) ? GFP_ATOMIC : GFP_KERNEL;
+	osh = kmalloc(sizeof(osl_t), flags);
 	ASSERT(osh);
 
 	bzero(osh, sizeof(osl_t));
@@ -193,9 +195,9 @@ osl_attach(void *pdev, uint bustype, bool pkttag)
 			STATIC_BUF_TOTAL_LEN))) {
 			printk("can not alloc static buf!\n");
 		}
-		else
-			printk("alloc static buf at %x!\n", (unsigned int)bcm_static_buf);
-
+		else {
+			/* printk("alloc static buf at %x!\n", (unsigned int)bcm_static_buf); */
+		}
 		
 		init_MUTEX(&bcm_static_buf->static_sem);
 
@@ -244,8 +246,10 @@ void*
 osl_pktget(osl_t *osh, uint len)
 {
 	struct sk_buff *skb;
+	gfp_t flags;
 
-	if ((skb = dev_alloc_skb(len))) {
+	flags = (in_atomic()) ? GFP_ATOMIC : GFP_KERNEL;
+	if ((skb = __dev_alloc_skb(len, flags))) {
 		skb_put(skb, len);
 		skb->priority = 0;
 
@@ -453,8 +457,8 @@ void*
 osl_malloc(osl_t *osh, uint size)
 {
 	void *addr;
+	gfp_t flags;
 
-	
 	if (osh)
 		ASSERT(osh->magic == OS_HANDLE_MAGIC);
 
@@ -491,8 +495,8 @@ osl_malloc(osl_t *osh, uint size)
 	}
 original:
 #endif 
-
-	if ((addr = kmalloc(size, GFP_ATOMIC)) == NULL) {
+	flags = (in_atomic()) ? GFP_ATOMIC : GFP_KERNEL;
+	if ((addr = kmalloc(size, flags)) == NULL) {
 		if (osh)
 			osh->failed++;
 		return (NULL);
@@ -509,7 +513,7 @@ osl_mfree(osl_t *osh, void *addr, uint size)
 #ifdef DHD_USE_STATIC_BUF
 	if (bcm_static_buf)
 	{
-		if ((addr > (void *)bcm_static_buf) && ((unsigned char *)addr \
+		if ((addr > (void *)bcm_static_buf) && ((unsigned char *)addr
 			<= ((unsigned char *)bcm_static_buf + STATIC_BUF_TOTAL_LEN)))
 		{
 			int buf_idx = 0;
@@ -604,8 +608,10 @@ void *
 osl_pktdup(osl_t *osh, void *skb)
 {
 	void * p;
+	gfp_t flags;
 
-	if ((p = skb_clone((struct sk_buff*)skb, GFP_ATOMIC)) == NULL)
+	flags = (in_atomic()) ? GFP_ATOMIC : GFP_KERNEL;
+	if ((p = skb_clone((struct sk_buff*)skb, flags)) == NULL)
 		return NULL;
 
 	
