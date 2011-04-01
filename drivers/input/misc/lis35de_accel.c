@@ -576,7 +576,7 @@ static int lis35de_probe(struct platform_device *pdev)
 	dev->i2c_address = pdata->i2c_address;
 	dev->update_interval = pdata->update_interval;
 	dev->intr_gpio = pdata->intr_gpio;
-#if (!defined(CONFIG_7564C_V10) || (!defined(CONFIG_7546Y_V10)))		
+#if (!defined(CONFIG_7564C_V10) && (!defined(CONFIG_7546Y_V10)))		
 	dev->flag = pdata->flag;
 #endif
 	/* Anyway, we let the inteerupt gpio in */
