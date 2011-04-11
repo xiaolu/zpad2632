@@ -812,7 +812,7 @@ void tegra_configure_dpd_kbc(unsigned int kbc_rows, unsigned int kbc_cols)
 }
 #endif
 
-#if defined(CONFIG_EMBEDDED_MMC_START_OFFSET)
+#if (defined(CONFIG_EMBEDDED_MMC_START_OFFSET) || defined(CONFIG_MISC_TEST))
 void set_aoint_bit_of_pmc(void)
 {
 	unsigned long pmc_control_reg;

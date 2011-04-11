@@ -459,6 +459,8 @@ NvOdmPeripheralGetBoardInfo(
     NvU16 BoardId,
     NvOdmBoardInfo *pBoardInfo)
 {
+	return NV_FALSE;
+
     NvBool RetVal = NV_FALSE;
     NvOdmServicesI2cHandle hOdmI2c = NULL;
     NvU8 EepromInst, CurrentBoard;
@@ -506,7 +508,7 @@ NvOdmPeripheralGetBoardInfo(
 
     // Match not found
     pBoardInfo = NULL;
- #if (defined(CONFIG_7373C_V20)||defined(CONFIG_7332C_V21)||defined(CONFIG_7564C_V10)||defined(CONFIG_7265C_V20)||defined(CONFIG_7323C_V21))
+ #if 0//(defined(CONFIG_7373C_V20)||defined(CONFIG_7332C_V21)||defined(CONFIG_7564C_V10)||defined(CONFIG_7265C_V20)||defined(CONFIG_7323C_V21))
 	return NV_TRUE;
 #else
 	return NV_FALSE;

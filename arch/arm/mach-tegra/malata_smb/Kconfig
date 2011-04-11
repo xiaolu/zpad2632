@@ -132,4 +132,12 @@ config 7546Y_V10
 	bool "Board number: 7546Y_V10"
 	
 endchoice
+
+choice
+	prompt "Test None Misc mode"
+
+config MISC_TEST
+	bool "MISC_TEST"
+endchoice
+
 endif
